@@ -1,6 +1,5 @@
+const MyApp = ({ Component, pageProps }) => {
+  return <>TEST</>;
+};
 
-const MyApp = ({ Component, pageProps }) =>{
-  return <>TEST</>
-}
-
-export default MyApp
+export default MyApp;
