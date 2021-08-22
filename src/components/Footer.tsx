@@ -9,7 +9,7 @@ const Footer = () => {
           <Link href="/terms">
             <a className="text-gray-600">利用規約</a>
           </Link>
-          <Link href="/">
+          <Link href="/privacypolicy">
             <a className="text-gray-600">プライバシーポリシー</a>
           </Link>
         </div>
