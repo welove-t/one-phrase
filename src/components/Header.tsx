@@ -11,6 +11,18 @@ const Header = () => {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(() => {});
   };
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log('ログアウトしました');
+      })
+      .catch(() => {
+        console.log('error!!!');
+      });
+  };
+
   const { user, loadingUser } = useUser();
   useEffect(() => {
     console.log(user);
@@ -22,7 +34,11 @@ const Header = () => {
           <a className="font-bold text-2xl text-white">１- Phrase</a>
         </Link>
         <span className="flex-1"></span>
-
+        {user && (
+          <button className="mr-4" onClick={logout}>
+            ログアウト
+          </button>
+        )}
         {loadingUser ? (
           <div className="animate-pulse">
             <div className="h-12 w-12 rounded-full bg-gray-300"></div>
