@@ -8,7 +8,7 @@ const Header = () => {
   const login = () => {
     firebase
       .auth()
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .signInWithPopup(new firebase.auth.TwitterAuthProvider())
       .then(() => {});
   };
   const logout = () => {
