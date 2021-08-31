@@ -4,6 +4,7 @@ import { useUser } from '../context/userContext';
 import firebase from 'firebase/app';
 import Image from 'next/image';
 import { Dialog, Transition } from '@headlessui/react';
+import toast from 'react-hot-toast';
 
 const Header = () => {
   // ログイン時のダイアログ表示ステイト
@@ -17,6 +18,7 @@ const Header = () => {
       .signInWithPopup(new firebase.auth.TwitterAuthProvider())
       .then(() => {
         closeModal();
+        toast.success('ようこそ！');
       });
   };
   const logout = () => {
