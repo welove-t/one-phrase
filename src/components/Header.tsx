@@ -5,8 +5,11 @@ import firebase from 'firebase/app';
 import Image from 'next/image';
 import { Dialog, Transition } from '@headlessui/react';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 const Header = () => {
+  const router = useRouter();
+  const { user, loadingUser } = useUser();
   // ログイン時のダイアログ表示ステイト
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
@@ -18,6 +21,7 @@ const Header = () => {
       .signInWithPopup(new firebase.auth.TwitterAuthProvider())
       .then(() => {
         closeModal();
+        router.push('/library');
         toast.success('ようこそ！');
       });
   };
@@ -33,7 +37,6 @@ const Header = () => {
       });
   };
 
-  const { user, loadingUser } = useUser();
   useEffect(() => {
     console.log(user);
   });
