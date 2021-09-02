@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Dialog, Transition } from '@headlessui/react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import MenuBar from './all/MenuBar';
 
 const Header = () => {
   const router = useRouter();
@@ -25,17 +26,6 @@ const Header = () => {
         toast.success('ようこそ！');
       });
   };
-  const logout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        console.log('ログアウトしました');
-      })
-      .catch(() => {
-        console.log('error!!!');
-      });
-  };
 
   useEffect(() => {
     console.log(user);
@@ -47,23 +37,12 @@ const Header = () => {
           <a className="font-bold text-2xl text-white">１- Phrase</a>
         </Link>
         <span className="flex-1"></span>
-        {user && (
-          <button className="mr-4" onClick={logout}>
-            ログアウト
-          </button>
-        )}
         {loadingUser ? (
           <div className="animate-pulse">
             <div className="h-12 w-12 rounded-full bg-gray-300"></div>
           </div>
         ) : user ? (
-          <Image
-            src={user.photoURL}
-            alt=""
-            width={48}
-            height={48}
-            className="rounded-full h-full w-full"
-          ></Image>
+          <MenuBar />
         ) : (
           <a
             className="text-white border border-white rounded-md py-2 px-4"
