@@ -11,7 +11,7 @@ const MenuBar = () => {
   const { user } = useUser();
   const router = useRouter();
   const toLibrary = () => {
-    router.push('/library');
+    router.push(`/user/${user.uid}/library`);
   };
   const toSettings = () => {
     router.push('/settings');

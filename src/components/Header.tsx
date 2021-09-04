@@ -22,7 +22,6 @@ const Header = () => {
       .signInWithPopup(new firebase.auth.TwitterAuthProvider())
       .then(() => {
         closeModal();
-        router.push('/library');
         toast.success('ようこそ！');
       });
   };
