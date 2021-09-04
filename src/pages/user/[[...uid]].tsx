@@ -1,10 +1,15 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import { useUser } from '../context/userContext';
+import Header from '../../components/Header';
+import { useUser } from '../../context/userContext';
 
-const Library = () => {
+const LibraryUser = () => {
   const { user } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    console.log(router.query);
+  });
 
   return (
     <div className="bg-blue-50 pb-40">
@@ -33,4 +38,4 @@ const Library = () => {
   );
 };
 
-export default Library;
+export default LibraryUser;
