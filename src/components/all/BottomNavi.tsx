@@ -5,6 +5,8 @@ import { useUser } from '../../context/userContext';
 
 const BottomNavi = () => {
   const { user } = useUser();
+  const router = useRouter();
+
   return (
     <div className="w-full">
       <section className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow">
@@ -28,25 +30,30 @@ const BottomNavi = () => {
               <span className="block text-xs">新規作成</span>
             </a>
           </Link>
-          <Link href={user && `/user/${user.uid}/library`}>
-            <a className="w-full focus:text-green-500 hover:text-green-500 justify-center inline-block text-center pt-2 pb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 inline-block mb-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                />
-              </svg>
-              <span className="block text-xs">ライブラリ</span>
-            </a>
-          </Link>
+          {/* <Link href={user && `/user/${user.uid}/library`}> */}
+          <a
+            className="w-full focus:text-green-500 hover:text-green-500 justify-center inline-block text-center pt-2 pb-1"
+            onClick={() => {
+              user && router.push(`/user/${user.uid}/library`);
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 inline-block mb-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+              />
+            </svg>
+            <span className="block text-xs">ライブラリ</span>
+          </a>
+          {/* </Link> */}
           <Link href="/settings">
             <a className="w-full focus:text-green-500 hover:text-green-500 justify-center inline-block text-center pt-2 pb-1">
               <svg
