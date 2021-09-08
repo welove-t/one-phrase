@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
 
 const CreatePhrase = () => {
+  const { user } = useUser();
   // フレーズ削除のダイアログ表示ステイト
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,6 +25,25 @@ const CreatePhrase = () => {
     setIsOpen(true);
   };
 
+  // フレーズのステイト
+  const [phrase, setPhrase] = useState<string>('');
+  // フレーズ登録
+  const addPhrase = () => {
+    if (phrase === '') return;
+    user &&
+      firebase
+        .firestore()
+        .doc(`users/${user.uid}/library/1`)
+        .set({
+          phrase: phrase,
+        })
+        .then(() => {
+          toast.success('保存しました');
+        })
+        .catch(() => {
+          console.log('error！');
+        });
+  };
   return (
     <div className="bg-blue-100">
       <Header />
@@ -32,15 +52,21 @@ const CreatePhrase = () => {
           <textarea
             name=""
             id=""
-            value={''}
+            value={phrase}
             cols={40}
             rows={5}
             placeholder="お気に入りのフレーズを入力"
             className="border border-blue-400 rounded-md px-2 py-3 resize-none focus:outline-none focus:ring-1"
+            onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+              setPhrase(event.target.value);
+            }}
           ></textarea>
 
           <div className="py-2 text-center">
-            <a className="px-4 py-2 bg-blue-400 text-white rounded-md">
+            <a
+              className="px-4 py-2 bg-blue-400 text-white rounded-md"
+              onClick={addPhrase}
+            >
               画像を生成する
             </a>
           </div>
