@@ -12,6 +12,7 @@ import firebase from 'firebase/app';
 import { useUser } from '../../context/userContext';
 import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
+import { format } from 'date-fns';
 
 const CreatePhrase = () => {
   const { user } = useUser();
@@ -30,12 +31,14 @@ const CreatePhrase = () => {
   // フレーズ登録
   const addPhrase = () => {
     if (phrase === '') return;
+    const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
     user &&
       firebase
         .firestore()
         .doc(`users/${user.uid}/library/1`)
         .set({
           phrase: phrase,
+          createdAt: createdAt,
         })
         .then(() => {
           toast.success('保存しました');
