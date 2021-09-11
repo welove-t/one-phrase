@@ -1,38 +1,66 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import { useUser } from '../../context/userContext';
+import firebase from 'firebase/app';
+import { PhraseCard } from '../../components/list/PhraseCard';
 
 const LibraryUser = () => {
   const { user } = useUser();
   const router = useRouter();
+
+  const [phraseList, setPhraseList] = useState(null);
+  const getLibrary = () => {
+    user &&
+      firebase
+        .firestore()
+        .collection(`users/${user.uid}/library`)
+        .get()
+        .then((items) => {
+          const res = items.docs.map((doc) => {
+            return { pid: doc.id, ...doc.data() };
+          });
+          setPhraseList(res);
+        })
+        .catch(() => {
+          console.log('error!');
+        });
+  };
+
   useEffect(() => {
-    console.log(router.query);
-  });
+    getLibrary();
+    console.log(phraseList);
+  }, [user]);
 
   return (
     <div className="bg-blue-50 pb-40">
       <Header />
       <div className="container">
-        <h1 className="py-8 text-center font-bold text-2xl">マイライブラリ</h1>
-
-        <div className="bg-white border rounded-md p-1 pb-2 mb-2 relative">
-          <div className="h-48 text-center p-2 text-gray-500 mb-4">
-            イメージ
-          </div>
-          <div className="flex items-center justify-between px-2 pt-1 border-t">
-            <div>
-              登録日:<span>2021/10/01</span>
+        <h1 className="py-8 text-center font-bold text-2xl">
+          あなたのフレーズリスト
+        </h1>
+        {user ? (
+          phraseList ? (
+            phraseList.length === 0 ? (
+              <div className="text-center text-gray-500 pt-8 pb-80">
+                <p>リストにフレーズはありません</p>
+                <p>フレーズを作成して下さい</p>
+              </div>
+            ) : (
+              phraseList.map((data, idx) => (
+                <PhraseCard data={data} key={idx}></PhraseCard>
+              ))
+            )
+          ) : (
+            <div className="text-center text-gray-500">
+              <p>読み込み中</p>
             </div>
-
-            <Link href="#">
-              <a className="bg-blue-400 text-white rounded-md py-2 px-4">
-                編集する
-              </a>
-            </Link>
+          )
+        ) : (
+          <div className="text-center text-gray-500 pt-4 pb-80">
+            <p>ログインして下さい</p>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
