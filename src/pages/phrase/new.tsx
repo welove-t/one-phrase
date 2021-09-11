@@ -31,12 +31,18 @@ const CreatePhrase = () => {
   // フレーズ登録
   const addPhrase = () => {
     if (phrase === '') return;
+
+    // ユニークIDを生成
+    const id = firebase.firestore().collection('_').doc().id;
+
+    // 日時取得
     const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
     user &&
       firebase
         .firestore()
-        .doc(`users/${user.uid}/library/1`)
+        .doc(`users/${user.uid}/library/${id}`)
         .set({
+          id,
           phrase: phrase,
           createdAt: createdAt,
         })
