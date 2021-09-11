@@ -34,7 +34,7 @@ const BottomNavi = () => {
           <a
             className="w-full focus:text-green-500 hover:text-green-500 justify-center inline-block text-center pt-2 pb-1"
             onClick={() => {
-              user && router.push(`/user/${user.uid}/library`);
+              user && router.push(`/list`);
             }}
           >
             <svg

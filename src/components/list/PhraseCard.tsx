@@ -17,7 +17,7 @@ export const PhraseCard = ({ data }) => {
 
         <Link
           href={{
-            pathname: `/user/library/${data.pid}`,
+            pathname: `/list/${data.pid}`,
           }}
         >
           <a className="bg-blue-400 text-white rounded-md py-2 px-4">
