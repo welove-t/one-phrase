@@ -5,11 +5,11 @@ import React, {
   useState,
   Fragment,
 } from 'react';
-import Header from '../../../components/Header';
+import Header from '../../components/Header';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
-import { useUser } from '../../../context/userContext';
+import { useUser } from '../../context/userContext';
 import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
 import { format } from 'date-fns';
