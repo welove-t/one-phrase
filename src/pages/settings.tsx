@@ -3,13 +3,44 @@ import React, { Fragment, useState } from 'react';
 import Header from '../components/Header';
 import { useUser } from '../context/userContext';
 import { Dialog, Transition } from '@headlessui/react';
+import firebase from 'firebase/app';
+import 'firebase/functions';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
 const Settings = () => {
+  const router = useRouter();
   const { user } = useUser();
   // アカウント削除時のダイアログ表示ステイト
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  // アカウント削除
+  const deleteUser = () => {
+    closeModal();
+    if (!user) return null;
+    const callable = firebase
+      .app()
+      .functions('asia-northeast1')
+      .httpsCallable('deleteUser');
+    callable({})
+      .then(() => {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            router.push('/');
+            toast.success('アカウント削除しました');
+          })
+          .catch(() => {
+            console.error('ログアウト失敗しました！');
+          });
+      })
+      .catch(() => {
+        console.error('アカウント削除失敗しました！');
+      });
   };
 
   return (
@@ -112,6 +143,7 @@ const Settings = () => {
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                    onClick={deleteUser}
                   >
                     削除する
                   </button>
