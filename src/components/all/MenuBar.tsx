@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 const MenuBar = () => {
   const { user } = useUser();
   const router = useRouter();
-  const toLibrary = () => {
+  const toList = () => {
     router.push(`/list`);
   };
   const toSettings = () => {
@@ -60,7 +60,7 @@ const MenuBar = () => {
                 <div className="relative grid gap-4 bg-white p-4">
                   <a
                     className="flex items-center p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none"
-                    onClick={toLibrary}
+                    onClick={toList}
                   >
                     <LibraryIcon width={28} height={28} />
 

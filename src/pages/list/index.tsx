@@ -5,16 +5,16 @@ import { useUser } from '../../context/userContext';
 import firebase from 'firebase/app';
 import { PhraseCard } from '../../components/list/PhraseCard';
 
-const LibraryUser = () => {
+const List = () => {
   const { user } = useUser();
   const router = useRouter();
 
   const [phraseList, setPhraseList] = useState(null);
-  const getLibrary = () => {
+  const getList = () => {
     user &&
       firebase
         .firestore()
-        .collection(`users/${user.uid}/library`)
+        .collection(`users/${user.uid}/list`)
         .get()
         .then((items) => {
           const res = items.docs.map((doc) => {
@@ -28,7 +28,7 @@ const LibraryUser = () => {
   };
 
   useEffect(() => {
-    getLibrary();
+    getList();
     console.log(phraseList);
   }, [user]);
 
@@ -66,4 +66,4 @@ const LibraryUser = () => {
   );
 };
 
-export default LibraryUser;
+export default List;
