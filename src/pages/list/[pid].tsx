@@ -51,7 +51,7 @@ const EditPhrase = () => {
       phraseId &&
       (await firebase
         .firestore()
-        .doc(`users/${user.uid}/library/${phraseId}`)
+        .doc(`users/${user.uid}/list/${phraseId}`)
         .get()
         .then((doc) => {
           setPhraseData({

@@ -40,7 +40,7 @@ const CreatePhrase = () => {
     user &&
       firebase
         .firestore()
-        .doc(`users/${user.uid}/library/${id}`)
+        .doc(`users/${user.uid}/list/${id}`)
         .set({
           id,
           phrase: phrase,
