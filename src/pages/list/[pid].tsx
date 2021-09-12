@@ -81,7 +81,7 @@ const EditPhrase = () => {
             placeholder="お気に入りのフレーズを入力"
             className="border border-blue-400 rounded-md px-2 py-3 resize-none focus:outline-none focus:ring-1"
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-              setPhraseData({ ...phraseData, comment: event.target.value });
+              setPhraseData({ ...phraseData, phrase: event.target.value });
             }}
           ></textarea>
 
