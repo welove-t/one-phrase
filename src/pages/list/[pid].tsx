@@ -43,7 +43,27 @@ const EditPhrase = () => {
     comment: '',
   });
   // フレーズ編集
-  const editPhrase = () => {};
+  const editPhrase = () => {
+    if (phraseData.phrase === '') return;
+
+    // 日時取得
+    const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
+    user &&
+      phraseId &&
+      firebase
+        .firestore()
+        .doc(`users/${user.uid}/list/${phraseId}`)
+        .update({
+          phrase: phraseData.phrase,
+          createdAt: createdAt,
+        })
+        .then(() => {
+          toast.success('更新しました');
+        })
+        .catch(() => {
+          console.log('error！');
+        });
+  };
 
   // フレーズ取得
   const getPhrase = useCallback(async () => {
