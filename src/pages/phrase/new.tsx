@@ -25,6 +25,7 @@ const CreatePhrase = () => {
   const openModal = () => {
     setIsOpen(true);
   };
+  const [isAddPhrase, setIsAddPhrase] = useState(0);
 
   // フレーズのステイト
   const [phrase, setPhrase] = useState<string>('');
@@ -48,6 +49,7 @@ const CreatePhrase = () => {
         })
         .then(() => {
           toast.success('保存しました');
+          setIsAddPhrase(1);
         })
         .catch(() => {
           console.log('error！');
@@ -72,12 +74,14 @@ const CreatePhrase = () => {
           ></textarea>
 
           <div className="py-2 text-center">
-            <a
-              className="px-4 py-2 bg-blue-400 text-white rounded-md"
-              onClick={addPhrase}
-            >
-              画像を生成する
-            </a>
+            {isAddPhrase || (
+              <a
+                className="px-4 py-2 bg-blue-400 text-white rounded-md"
+                onClick={addPhrase}
+              >
+                画像を生成する
+              </a>
+            )}
           </div>
           <div className="text-center py-4">
             <button className="text-xl font-bold px-4 py-2 bg-blue-400 text-white rounded-md">
