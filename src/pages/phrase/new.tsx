@@ -13,6 +13,7 @@ import { useUser } from '../../context/userContext';
 import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
 import { format } from 'date-fns';
+import { ImageCreateButton } from '../../components/buttons/ImageCreateButton';
 
 const CreatePhrase = () => {
   const { user } = useUser();
@@ -75,12 +76,9 @@ const CreatePhrase = () => {
 
           <div className="py-2 text-center">
             {isAddPhrase || (
-              <a
-                className="px-4 py-2 bg-blue-400 text-white rounded-md"
-                onClick={addPhrase}
-              >
+              <ImageCreateButton onClick={addPhrase}>
                 画像を生成する
-              </a>
+              </ImageCreateButton>
             )}
           </div>
           <div className="text-center py-4">

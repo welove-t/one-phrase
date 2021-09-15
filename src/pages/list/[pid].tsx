@@ -13,6 +13,7 @@ import { useUser } from '../../context/userContext';
 import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
 import { format } from 'date-fns';
+import { ImageCreateButton } from '../../components/buttons/ImageCreateButton';
 
 type phrase = {
   phrase: string;
@@ -106,12 +107,9 @@ const EditPhrase = () => {
           ></textarea>
 
           <div className="py-2 text-center">
-            <a
-              className="px-4 py-2 bg-blue-400 text-white rounded-md"
-              onClick={editPhrase}
-            >
-              画像を生成する
-            </a>
+            <ImageCreateButton onClick={editPhrase}>
+              画像を更新する
+            </ImageCreateButton>
           </div>
           <div className="text-center py-4">
             <button className="text-xl font-bold px-4 py-2 bg-blue-400 text-white rounded-md">
