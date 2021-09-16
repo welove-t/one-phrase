@@ -43,6 +43,23 @@ const EditPhrase = () => {
     imgUrl: '',
     comment: '',
   });
+
+  // 本の削除
+  const deleteBook = () => {
+    user &&
+      firebase
+        .firestore()
+        .doc(`users/${user.uid}/list/${phraseId}`)
+        .delete()
+        .then(() => {
+          toast.success('削除しました');
+          router.push('/list');
+        })
+        .catch(() => {
+          console.log('error!!!');
+        });
+  };
+
   // フレーズ編集
   const editPhrase = () => {
     if (phraseData.phrase === '') return;
@@ -186,6 +203,7 @@ const EditPhrase = () => {
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                    onClick={deleteBook}
                   >
                     削除する
                   </button>
