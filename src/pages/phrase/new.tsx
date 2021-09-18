@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
 import { format } from 'date-fns';
 import { ImageCreateButton } from '../../components/buttons/ImageCreateButton';
+import CreateImage from '../../components/CreateImage';
 
 const CreatePhrase = () => {
   const { user } = useUser();
@@ -95,6 +96,7 @@ const CreatePhrase = () => {
             </a>
           </div>
         </form>
+        <CreateImage data={phrase} />
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
