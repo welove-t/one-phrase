@@ -87,14 +87,6 @@ const CreatePhrase = () => {
               ツイートする
             </button>
           </div>
-          <div className="text-right py-4">
-            <a
-              className="opacity-50 underline hover:opacity-30 cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            >
-              ライブラリから削除する
-            </a>
-          </div>
         </form>
         <CreateImage data={phrase} />
       </div>
