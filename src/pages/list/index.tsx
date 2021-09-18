@@ -15,6 +15,7 @@ const List = () => {
       firebase
         .firestore()
         .collection(`users/${user.uid}/list`)
+        .orderBy('createdAt', 'desc')
         .get()
         .then((items) => {
           const res = items.docs.map((doc) => {
