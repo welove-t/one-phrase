@@ -69,7 +69,7 @@ const CreatePhrase = () => {
             cols={40}
             rows={5}
             placeholder="お気に入りのフレーズを入力"
-            className="border border-blue-400 rounded-md px-2 py-3 resize-none focus:outline-none focus:ring-1"
+            className="border border-blue-400 rounded-md pl-3 pr-1 py-3 resize-none focus:outline-none focus:ring-1"
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
               setPhrase(event.target.value);
             }}
