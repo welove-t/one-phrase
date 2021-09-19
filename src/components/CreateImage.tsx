@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { loadImage } from 'canvas';
 import TweetImage from './TweetImage';
 
-const CreateImage = ({ data }) => {
+type props = {
+  phrase: string;
+};
+
+const CreateImage = ({ phrase }: props) => {
   // canvas用
   const [bgColor, setBgColor] = useState<string>('#888888');
   const [foColor, setFoColor] = useState<string>('#000000');
   const [png, setPng] = useState<string | null>(null);
   const width = 350;
   const height = 190;
+  const fontSize = 16;
+  const lineHeight = 1.5;
 
   useEffect(() => {
     const canvasElem = document.createElement('canvas');
@@ -20,13 +26,21 @@ const CreateImage = ({ data }) => {
     if (!canvasElem || !ctx) return;
 
     // draw
-
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, width, height);
-    ctx.font = '16px Hiragino Maru Gothic Pro';
+    ctx.font = fontSize + 'px Hiragino Maru Gothic Pro';
     ctx.fillStyle = foColor;
-    ctx.fillText(data, width / 20, height / 4);
+
+    for (let lines = phrase.split('\n'), i = 0, l = lines.length; l > i; i++) {
+      let line = lines[i];
+      let addY = fontSize;
+      if (i) addY += fontSize * lineHeight * i;
+
+      ctx.fillText(line, width / 20 + 0, height / 8 + addY);
+    }
+
+    // ctx.fillText(phrase, width / 20, height / 4);
     // const img = new Image();
     // img.crossOrigin = 'Anonymous';
     // img.src =
@@ -36,7 +50,7 @@ const CreateImage = ({ data }) => {
     //   ctx.drawImage(img, 0, 0);
     // };
     setPng(canvasElem.toDataURL());
-  }, [bgColor, foColor, data]);
+  }, [bgColor, foColor, phrase]);
   return (
     <div>
       <h3>画像生成</h3>

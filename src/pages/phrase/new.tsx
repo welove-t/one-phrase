@@ -57,6 +57,7 @@ const CreatePhrase = () => {
           console.log('error！');
         });
   };
+
   return (
     <div className="bg-blue-100">
       <Header />
@@ -88,7 +89,7 @@ const CreatePhrase = () => {
             </button>
           </div>
         </form>
-        <CreateImage data={phrase} />
+        <CreateImage phrase={phrase} />
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
