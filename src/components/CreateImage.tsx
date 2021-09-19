@@ -24,9 +24,9 @@ const CreateImage = ({ data }) => {
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, width, height);
-    ctx.font = '30px Hiragino Maru Gothic Pro';
+    ctx.font = '16px Hiragino Maru Gothic Pro';
     ctx.fillStyle = foColor;
-    ctx.fillText(data.comment, width / 6, height / 2);
+    ctx.fillText(data, width / 20, height / 4);
     // const img = new Image();
     // img.crossOrigin = 'Anonymous';
     // img.src =
