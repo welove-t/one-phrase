@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { loadImage } from 'canvas';
 import TweetImage from './TweetImage';
 import domtoimage from 'dom-to-image';
@@ -14,6 +14,7 @@ type props = {
 };
 
 const CreateImage = ({ phrase }: props) => {
+  const container = useRef(null);
   const { user } = useUser();
   const [isAddPhrase, setIsAddPhrase] = useState(0);
   // canvas用
@@ -88,6 +89,18 @@ const CreateImage = ({ phrase }: props) => {
         });
   };
 
+  const exportToPng = (dom) => {
+    domtoimage
+      .toPng(dom)
+      .then(function (dataUrl) {
+        let img = new Image();
+        img.src = dataUrl;
+        document.body.appendChild(img);
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+      });
+  };
   return (
     <div>
       <h3>画像生成</h3>
@@ -119,7 +132,7 @@ const CreateImage = ({ phrase }: props) => {
         //     loading="lazy"
         //   ></Image>
         // </div>
-        <div className="text-center">
+        <div className="text-center" ref={container}>
           <TweetImage png={png} width={width} height={height} />
         </div>
       )}
@@ -130,6 +143,13 @@ const CreateImage = ({ phrase }: props) => {
             画像を生成する
           </ImageCreateButton>
         )}
+
+        <a
+          className="bg-red-400 px-4 py-2 rounded-full text-center"
+          onClick={() => exportToPng(container.current)}
+        >
+          StorageにUP！
+        </a>
       </div>
     </div>
   );
