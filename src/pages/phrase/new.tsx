@@ -7,17 +7,10 @@ import React, {
 } from 'react';
 import Header from '../../components/Header';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import firebase from 'firebase/app';
-import { useUser } from '../../context/userContext';
-import toast from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
-import { format } from 'date-fns';
-import { ImageCreateButton } from '../../components/buttons/ImageCreateButton';
 import CreateImage from '../../components/CreateImage';
 
 const CreatePhrase = () => {
-  const { user } = useUser();
   // フレーズ削除のダイアログ表示ステイト
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,36 +20,9 @@ const CreatePhrase = () => {
   const openModal = () => {
     setIsOpen(true);
   };
-  const [isAddPhrase, setIsAddPhrase] = useState(0);
 
   // フレーズのステイト
   const [phrase, setPhrase] = useState<string>('');
-  // フレーズ登録
-  const addPhrase = () => {
-    if (phrase === '') return;
-
-    // ユニークIDを生成
-    const id = firebase.firestore().collection('_').doc().id;
-
-    // 日時取得
-    const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
-    user &&
-      firebase
-        .firestore()
-        .doc(`users/${user.uid}/list/${id}`)
-        .set({
-          id,
-          phrase: phrase,
-          createdAt: createdAt,
-        })
-        .then(() => {
-          toast.success('保存しました');
-          setIsAddPhrase(1);
-        })
-        .catch(() => {
-          console.log('error！');
-        });
-  };
 
   return (
     <div className="bg-blue-100">
@@ -76,20 +42,15 @@ const CreatePhrase = () => {
             }}
           ></textarea>
 
-          <div className="py-2 text-center">
-            {isAddPhrase || (
-              <ImageCreateButton onClick={addPhrase}>
-                画像を生成する
-              </ImageCreateButton>
-            )}
-          </div>
           <div className="text-center py-4">
             <button className="text-xl font-bold px-4 py-2 bg-blue-400 text-white rounded-md">
               ツイートする
             </button>
           </div>
         </form>
-        <CreateImage phrase={phrase} />
+        <div id="canvas">
+          <CreateImage phrase={phrase} />
+        </div>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
