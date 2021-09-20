@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { loadImage } from 'canvas';
 import TweetImage from './TweetImage';
+import domtoimage from 'dom-to-image';
+import { ImageCreateButton } from './buttons/ImageCreateButton';
+import { useRouter } from 'next/router';
+import { useUser } from '../context/userContext';
+import firebase from 'firebase/app';
+import { format } from 'date-fns';
+import toast from 'react-hot-toast';
 
 type props = {
   phrase: string;
 };
 
 const CreateImage = ({ phrase }: props) => {
+  const { user } = useUser();
+  const [isAddPhrase, setIsAddPhrase] = useState(0);
   // canvas用
   const [bgColor, setBgColor] = useState<string>('#888888');
   const [foColor, setFoColor] = useState<string>('#000000');
@@ -51,6 +60,34 @@ const CreateImage = ({ phrase }: props) => {
     // };
     setPng(canvasElem.toDataURL());
   }, [bgColor, foColor, phrase]);
+
+  // フレーズ登録
+  const addPhrase = () => {
+    if (phrase === '') return;
+
+    // ユニークIDを生成
+    const id = firebase.firestore().collection('_').doc().id;
+
+    // 日時取得
+    const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
+    user &&
+      firebase
+        .firestore()
+        .doc(`users/${user.uid}/list/${id}`)
+        .set({
+          id,
+          phrase: phrase,
+          createdAt: createdAt,
+        })
+        .then(() => {
+          toast.success('保存しました');
+          setIsAddPhrase(1);
+        })
+        .catch(() => {
+          console.log('error！');
+        });
+  };
+
   return (
     <div>
       <h3>画像生成</h3>
@@ -86,6 +123,14 @@ const CreateImage = ({ phrase }: props) => {
           <TweetImage png={png} width={width} height={height} />
         </div>
       )}
+
+      <div className="py-2 text-center">
+        {isAddPhrase || (
+          <ImageCreateButton onClick={addPhrase}>
+            画像を生成する
+          </ImageCreateButton>
+        )}
+      </div>
     </div>
   );
 };
