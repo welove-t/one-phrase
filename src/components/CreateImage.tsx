@@ -50,15 +50,6 @@ const CreateImage = ({ phrase }: props) => {
       ctx.fillText(line, width / 20 + 0, height / 8 + addY);
     }
 
-    // ctx.fillText(phrase, width / 20, height / 4);
-    // const img = new Image();
-    // img.crossOrigin = 'Anonymous';
-    // img.src =
-    //   'https://1.bp.blogspot.com/-lCWO2hySU1s/YFVT6vAeUnI/AAAAAAABdh8/cObdcCdkySQwdxiJzKFWOl_vhRBNNi62QCNcBGAsYHQ/s884/present_hanataba_flower_girl.png';
-    // img.src = data.imgUrl;
-    // img.onload = () => {
-    //   ctx.drawImage(img, 0, 0);
-    // };
     setPng(canvasElem.toDataURL());
   }, [bgColor, foColor, phrase]);
 
@@ -122,16 +113,6 @@ const CreateImage = ({ phrase }: props) => {
       ))}
       <h4>生成</h4>
       {png && (
-        // <div className="bg-white rounded-lg w-80 text-center mx-auto space-x-2">
-        //   <Image
-        //     id="bookImage_canvas"
-        //     src={data.imgUrl}
-        //     alt=""
-        //     width={120}
-        //     height={180}
-        //     loading="lazy"
-        //   ></Image>
-        // </div>
         <div className="text-center" ref={container}>
           <TweetImage png={png} width={width} height={height} />
         </div>
