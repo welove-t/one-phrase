@@ -138,7 +138,7 @@ const EditPhrase = () => {
               className="opacity-50 underline hover:opacity-30 cursor-pointer"
               onClick={() => setIsOpen(true)}
             >
-              ライブラリから削除する
+              あなたのリストから削除する
             </a>
           </div>
         </form>
@@ -184,7 +184,7 @@ const EditPhrase = () => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  この本をライブラリから削除しても宜しいですか？
+                  この本をリストから削除しても宜しいですか？
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
