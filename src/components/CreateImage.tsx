@@ -53,6 +53,20 @@ const CreateImage = ({ phrase }: props) => {
     setPng(canvasElem.toDataURL());
   }, [bgColor, foColor, phrase]);
 
+  // 画像アップロード（Storage）
+  const upload = (image) => {
+    const storageRef = firebase.storage().ref();
+    const imagesRef = storageRef.child('image/test2.png');
+    imagesRef
+      .put(image)
+      .then(() => {
+        console.log('success!!!');
+      })
+      .catch(() => {
+        console.log('miss!');
+      });
+  };
+
   // フレーズ登録
   const addPhrase = () => {
     if (phrase === '') return;
@@ -80,6 +94,7 @@ const CreateImage = ({ phrase }: props) => {
         });
   };
 
+  // dom→イメージ生成
   const exportToPng = (dom) => {
     domtoimage
       .toPng(dom)
@@ -87,6 +102,7 @@ const CreateImage = ({ phrase }: props) => {
         let img = new Image();
         img.src = dataUrl;
         document.body.appendChild(img);
+        upload(img);
       })
       .catch(function (error) {
         console.error('oops, something went wrong!', error);
