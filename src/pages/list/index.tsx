@@ -4,12 +4,14 @@ import Header from '../../components/Header';
 import { useUser } from '../../context/userContext';
 import firebase from 'firebase/app';
 import { PhraseCard } from '../../components/list/PhraseCard';
+import Image from 'next/image';
 
 const List = () => {
   const { user } = useUser();
   const router = useRouter();
 
   const [phraseList, setPhraseList] = useState(null);
+  const [phraseImage, setPhraseImage] = useState();
   const getList = () => {
     user &&
       firebase
@@ -28,9 +30,16 @@ const List = () => {
         });
   };
 
+  const getPhrase = () => {
+    const storageRef = firebase.storage().ref().child('image/love.jpg');
+    storageRef.getDownloadURL().then((url) => {
+      console.log(url);
+      setPhraseImage(url);
+    });
+  };
   useEffect(() => {
     getList();
-    console.log(phraseList);
+    getPhrase();
   }, [user]);
 
   return (
@@ -40,6 +49,17 @@ const List = () => {
         <h1 className="py-8 text-center font-bold text-2xl">
           あなたのフレーズリスト
         </h1>
+        {phraseImage && (
+          // <Image
+          //   alt="icon"
+          //   // src={phraseImage}
+          //   src="https://firebasestorage.googleapis.com/v0/b/one-phrase-test.appspot.com/o/image%2Flove.jpg?alt=media&token=822695da-9a76-466b-b7e5-8b526ffc3878"
+          //   height={300}
+          //   width={150}
+          //   className="rounded-lg text-center"
+          // />
+          <img src={phraseImage} />
+        )}
         {user ? (
           phraseList ? (
             phraseList.length === 0 ? (

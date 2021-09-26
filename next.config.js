@@ -1,6 +1,10 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['lh3.googleusercontent.com', 'pbs.twimg.com'],
+    domains: [
+      'lh3.googleusercontent.com',
+      'pbs.twimg.com',
+      'firebasestorage.googleapis.com',
+    ],
   },
 };
