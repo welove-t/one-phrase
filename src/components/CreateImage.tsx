@@ -55,9 +55,9 @@ const CreateImage = ({ phrase }: props) => {
   }, [bgColor, foColor, phrase]);
 
   // 画像アップロード（Storage）
-  const upload = (image) => {
+  const upload = (image, storageURL) => {
     const storageRef = firebase.storage().ref();
-    const imagesRef = storageRef.child(`${user.uid}/${dateTime}.png`);
+    const imagesRef = storageRef.child(storageURL);
     imagesRef
       .putString(image, 'data_url')
       .then(() => {
@@ -69,11 +69,18 @@ const CreateImage = ({ phrase }: props) => {
   };
 
   // フレーズ登録
-  const addPhrase = () => {
-    if (phrase === '') return;
+  const addPhrase = (domPhrase) => {
+    if (phrase === '' && domPhrase === '') return;
 
     // ユニークIDを生成
     const id = firebase.firestore().collection('_').doc().id;
+
+    const storageURL = `${user.uid}/${id}.png`;
+    // 画像アップ
+    const imagePhraseURL = exportToPng(domPhrase, storageURL);
+
+    // 画像アップ
+    // upload(imagePhraseURL, id);現状動かない...将来的に↑でURL取得してここで呼び出す書き方にしたい
 
     // 日時取得
     const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
@@ -85,6 +92,7 @@ const CreateImage = ({ phrase }: props) => {
           id,
           phrase: phrase,
           createdAt: createdAt,
+          imageURL: storageURL,
         })
         .then(() => {
           toast.success('保存しました');
@@ -96,18 +104,19 @@ const CreateImage = ({ phrase }: props) => {
   };
 
   // dom→イメージ生成
-  const exportToPng = (dom) => {
+  const exportToPng = (dom, storageURL) => {
     domtoimage
       .toPng(dom)
       .then(function (dataUrl) {
         let img = new Image();
         img.src = dataUrl;
         document.body.appendChild(img);
-        console.log(img);
-        upload(img.src);
+        // return img.src;
+        upload(img.src, storageURL);
       })
       .catch(function (error) {
         console.error('oops, something went wrong!', error);
+        // return error;
       });
   };
   return (
@@ -138,14 +147,14 @@ const CreateImage = ({ phrase }: props) => {
 
       <div className="py-2 text-center">
         {isAddPhrase || (
-          <ImageCreateButton onClick={addPhrase}>
+          <ImageCreateButton onClick={() => addPhrase(container.current)}>
             画像を生成する
           </ImageCreateButton>
         )}
 
         <a
           className="bg-red-400 px-4 py-2 rounded-full text-center"
-          onClick={() => exportToPng(container.current)}
+          // onClick={() => exportToPng(container.current)}
         >
           StorageにUP！
         </a>
