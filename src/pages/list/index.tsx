@@ -31,7 +31,10 @@ const List = () => {
   };
 
   const getPhrase = () => {
-    const storageRef = firebase.storage().ref().child('image/love.jpg');
+    const storageRef = firebase
+      .storage()
+      .ref()
+      .child(`${user.uid}/2021-11-27 11:36:22.png`);
     storageRef.getDownloadURL().then((url) => {
       console.log(url);
       setPhraseImage(url);
@@ -49,17 +52,7 @@ const List = () => {
         <h1 className="py-8 text-center font-bold text-2xl">
           あなたのフレーズリスト
         </h1>
-        {phraseImage && (
-          // <Image
-          //   alt="icon"
-          //   // src={phraseImage}
-          //   src="https://firebasestorage.googleapis.com/v0/b/one-phrase-test.appspot.com/o/image%2Flove.jpg?alt=media&token=822695da-9a76-466b-b7e5-8b526ffc3878"
-          //   height={300}
-          //   width={150}
-          //   className="rounded-lg text-center"
-          // />
-          <img src={phraseImage} />
-        )}
+        {phraseImage && <img src={phraseImage} />}
         {user ? (
           phraseList ? (
             phraseList.length === 0 ? (
