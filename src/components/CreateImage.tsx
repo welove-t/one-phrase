@@ -13,6 +13,7 @@ type props = {
   phrase: string;
 };
 
+const dateTime = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
 const CreateImage = ({ phrase }: props) => {
   const container = useRef(null);
   const { user } = useUser();
@@ -56,9 +57,9 @@ const CreateImage = ({ phrase }: props) => {
   // 画像アップロード（Storage）
   const upload = (image) => {
     const storageRef = firebase.storage().ref();
-    const imagesRef = storageRef.child('image/test2.png');
+    const imagesRef = storageRef.child(`${user.uid}/${dateTime}.png`);
     imagesRef
-      .put(image)
+      .putString(image, 'data_url')
       .then(() => {
         console.log('success!!!');
       })
@@ -102,7 +103,8 @@ const CreateImage = ({ phrase }: props) => {
         let img = new Image();
         img.src = dataUrl;
         document.body.appendChild(img);
-        upload(img);
+        console.log(img);
+        upload(img.src);
       })
       .catch(function (error) {
         console.error('oops, something went wrong!', error);
