@@ -33,7 +33,7 @@ const CreatePhrase = () => {
             name=""
             id=""
             value={phrase}
-            cols={40}
+            cols={38}
             rows={5}
             placeholder="お気に入りのフレーズを入力"
             className="border border-blue-400 rounded-md pl-3 pr-1 py-3 resize-none focus:outline-none focus:ring-1"
