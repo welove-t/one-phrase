@@ -13,7 +13,6 @@ type props = {
   phrase: string;
 };
 
-const dateTime = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
 const CreateImage = ({ phrase }: props) => {
   const container = useRef(null);
   const { user } = useUser();
@@ -69,7 +68,7 @@ const CreateImage = ({ phrase }: props) => {
   };
 
   // フレーズ登録
-  const addPhrase = (domPhrase) => {
+  const addPhrase = async (domPhrase) => {
     if (phrase === '' && domPhrase === '') return;
 
     // ユニークIDを生成
@@ -77,10 +76,10 @@ const CreateImage = ({ phrase }: props) => {
 
     const storageURL = `${user.uid}/${id}.png`;
     // 画像アップ
-    const imagePhraseURL = exportToPng(domPhrase, storageURL);
+    const imagePhraseURL = await exportToPng(domPhrase);
 
     // 画像アップ
-    // upload(imagePhraseURL, id);現状動かない...将来的に↑でURL取得してここで呼び出す書き方にしたい
+    await upload(imagePhraseURL, storageURL);
 
     // 日時取得
     const createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss');
@@ -104,20 +103,20 @@ const CreateImage = ({ phrase }: props) => {
   };
 
   // dom→イメージ生成
-  const exportToPng = (dom, storageURL) => {
-    domtoimage
+  const exportToPng = (dom) => {
+    const data_url = domtoimage
       .toPng(dom)
-      .then(function (dataUrl) {
+      .then((dataUrl) => {
         let img = new Image();
         img.src = dataUrl;
         document.body.appendChild(img);
-        // return img.src;
-        upload(img.src, storageURL);
+        return dataUrl;
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.error('oops, something went wrong!', error);
-        // return error;
+        return error;
       });
+    return data_url;
   };
   return (
     <div>
@@ -151,13 +150,6 @@ const CreateImage = ({ phrase }: props) => {
             画像を生成する
           </ImageCreateButton>
         )}
-
-        <a
-          className="bg-red-400 px-4 py-2 rounded-full text-center"
-          // onClick={() => exportToPng(container.current)}
-        >
-          StorageにUP！
-        </a>
       </div>
     </div>
   );
