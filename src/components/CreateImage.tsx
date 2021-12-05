@@ -21,9 +21,9 @@ const CreateImage = ({ phrase }: props) => {
   const [bgColor, setBgColor] = useState<string>('#888888');
   const [foColor, setFoColor] = useState<string>('#000000');
   const [png, setPng] = useState<string | null>(null);
-  const width = 350;
-  const height = 190;
-  const fontSize = 16;
+  const width = 480;
+  const height = 270;
+  const fontSize = 24;
   const lineHeight = 1.5;
 
   useEffect(() => {
@@ -119,7 +119,7 @@ const CreateImage = ({ phrase }: props) => {
     return data_url;
   };
   return (
-    <div>
+    <div className="text-center">
       <h3>画像生成</h3>
       <h4>背景色</h4>
       {['#f00', '#0f0', '#00f'].map((color) => (
@@ -139,12 +139,20 @@ const CreateImage = ({ phrase }: props) => {
       ))}
       <h4>生成</h4>
       {png && (
-        <div className="text-center" ref={container}>
-          <TweetImage png={png} width={width} height={height} />
+        <div className="sm:w-96 sm:h-52 mx-auto mb-4">
+          {/* <TweetImage png={png} width={width} height={height} ref={container} /> */}
+          <img
+            alt="icon"
+            src={png}
+            height={height}
+            width={width}
+            className="rounded-lg"
+            ref={container}
+          />
         </div>
       )}
 
-      <div className="py-2 text-center">
+      <div className="py-2">
         {isAddPhrase || (
           <ImageCreateButton onClick={() => addPhrase(container.current)}>
             画像を生成する
